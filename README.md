@@ -1,4 +1,4 @@
-# IntelliRegex: Smart Text Pattern Matching & Replacement
+# Web Application for Regex Pattern Matching and Replacement
 
 A Django and React web application that allows users to upload CSV/Excel files, identify text patterns using natural language, and perform replacements. It leverages the Gemini API to convert natural language queries into regex.
 
