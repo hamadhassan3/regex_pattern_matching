@@ -25,6 +25,8 @@ A Django and React web application that allows users to upload CSV/Excel files, 
 
 
 **Demo Video:**
+https://github.com/user-attachments/assets/b759476f-23a6-4d62-84d5-9fae22c41d86
+
 
 
 ## Tech Stack
