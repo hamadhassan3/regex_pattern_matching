@@ -21,14 +21,12 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [naturalLanguageQuery, setNaturalLanguageQuery] = useState('');
   const [originalData, setOriginalData] = useState([]);
-  const [processedData, setProcessedData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
-    setProcessedData([]);
     setOriginalData([]);
     setHeaders([]);
     setError('');
@@ -74,7 +72,6 @@ function App() {
 
     setIsLoading(true);
     setError('');
-    setProcessedData([]);
 
     try {
       const payload = {
@@ -86,8 +83,7 @@ function App() {
       const response = await axios.post(API_URL, payload);
 
       if (response.data && response.data.processed_data) {
-        setProcessedData(response.data.processed_data);
-        setOriginalData(response.data.processed_data || originalData);
+        setOriginalData(response.data.processed_data);
         if(response.data.headers) {
             setHeaders(response.data.headers);
         }
@@ -98,7 +94,6 @@ function App() {
       console.error("Overall processing error:", err);
       const apiErrorMessage = err.response?.data?.detail || err.response?.data?.error || err.message;
       setError(`Processing failed: ${apiErrorMessage}`);
-      setProcessedData([]);
     } finally {
       setIsLoading(false);
     }
@@ -167,21 +162,12 @@ function App() {
         </Box>
       )}
 
-      {!isLoading && originalData.length > 0 && processedData.length === 0 && (
+      {!isLoading && originalData.length > 0 && (
         <Paper elevation={1} sx={{ p: 2, mt: 2 }}>
           <Typography variant="h6" component="h2" gutterBottom>
             Original Data Preview ({originalData.length} rows)
           </Typography>
           <DataTable headers={headers} data={originalData} />
-        </Paper>
-      )}
-
-      {!isLoading && processedData.length > 0 && (
-        <Paper elevation={1} sx={{ p: 2, mt: 2 }}>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Processed Data ({processedData.length} rows)
-          </Typography>
-          <DataTable headers={headers} data={processedData} />
         </Paper>
       )}
     </Container>
